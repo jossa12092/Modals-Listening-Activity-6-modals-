@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<title>Have to / Don't have to — 15Q Assessment</title>
+<style>
+:root{--green:#74c227;--dark:#327e38;--red:#d6493f;--ink:#2d302d;--muted:#6b736b;--line:#d7e4ce;--pale:#eef8e4;--palered:#fcecea;--white:#fff;--shadow:0 10px 28px rgba(30,70,25,.12)}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#eaf5df,#f8fbf5 50%,#e3f1d6)} body{padding:14px;user-select:none;-webkit-user-select:none}
+.app{max-width:900px;margin:auto} .header{position:sticky;top:7px;z-index:8;background:linear-gradient(135deg,var(--green),#5aa51e);color:#fff;border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.header-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap} h1{font-size:clamp(22px,5vw,33px);margin:0} .timer{background:#fff;color:var(--dark);padding:8px 11px;border-radius:11px;font-weight:900;font-variant-numeric:tabular-nums}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px} .badge{background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 9px;font-size:12px;font-weight:900}
+.progress{height:9px;background:rgba(255,255,255,.28);border-radius:999px;overflow:hidden;margin-top:12px} .progress>div{height:100%;width:0;background:#fff;transition:.2s}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;margin:16px 0;box-shadow:var(--shadow)} .hidden{display:none!important}
+.note{background:var(--pale);border:1px solid #cae3b6;border-radius:14px;padding:13px 15px;line-height:1.45} .warn{background:#fff6da;border:1px solid #ecd075;border-radius:12px;padding:11px 13px;margin-top:12px;font-weight:750}
+label{font-weight:850} input[type=text],input[type=password]{width:100%;font-size:16px;padding:12px;border:1px solid #ccd9c7;border-radius:11px;margin-top:6px}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:var(--green);color:#fff;font-weight:900;font-size:15px;cursor:pointer} .btn.secondary{background:#eef5e9;color:var(--dark);border:1px solid #cfdfc6} .btn.red{background:var(--red)} .btn:disabled{opacity:.45;cursor:not-allowed}
+.question-card{display:none} .question-card.active{display:block} .qmeta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center} .qnum{font-weight:900;color:var(--dark)} .tag{font-size:12px;font-weight:900;background:var(--pale);color:var(--dark);padding:6px 9px;border-radius:999px}
+.qtext{font-size:clamp(19px,3.5vw,25px);font-weight:900;line-height:1.3;margin:17px 0 15px} .options{display:grid;gap:10px} .option{display:flex;gap:11px;border:1.5px solid #d9e0d5;border-radius:14px;padding:13px 14px;background:#fff;cursor:pointer} .option.selected{border-color:var(--green);background:var(--pale)} .option.locked{cursor:default} .option.answer-correct{border-color:var(--green);background:var(--pale)} .option.answer-wrong{border-color:var(--red);background:var(--palered)} .option input{margin-top:3px;transform:scale(1.15)} .option span{font-weight:760;line-height:1.35}
+.feedback{margin-top:12px;border-radius:13px;padding:12px 14px;font-size:17px;font-weight:900} .feedback.ok{background:var(--pale);border:1px solid #9fd174;color:#226b29} .feedback.bad{background:var(--palered);border:1px solid #e4aaa5;color:#a9342d}
+.audio-panel{background:#f6faf3;border:1px solid #d5e6ca;border-radius:15px;padding:13px;margin-top:13px} .audio-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .speed{padding:9px;border:1px solid #ccd9c7;border-radius:10px;background:#fff;font-weight:800} .audio-status{font-size:12px;color:var(--muted);margin-top:7px;font-weight:700} .audio-status.err{color:#a9342d} .audio-status.ok{color:#226b29}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px} .nav .btn{min-width:120px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0} .stat{background:#f7fbf4;border:1px solid var(--line);border-radius:13px;text-align:center;padding:13px} .stat strong{display:block;font-size:27px;color:var(--dark)} .small{font-size:12px;color:var(--muted)}
+.lock{position:fixed;inset:0;background:rgba(18,35,16,.88);z-index:50;display:flex;align-items:center;justify-content:center;padding:18px} .lockbox{max-width:430px;width:100%;background:white;border-radius:18px;padding:20px;text-align:center} .lock-error{color:var(--red);font-weight:850;margin-top:8px}
+@media(max-width:650px){body{padding:8px}.card{padding:16px}.grid{grid-template-columns:1fr 1fr}.nav .btn{flex:1;min-width:0}}
+@media print{body{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+<div class="header-top"><div><h1>Modal Challenge</h1><div style="font-weight:750;margin-top:4px">Have to • Don’t have to • Mustn’t • Should</div></div><div id="timer" class="timer">45:00</div></div>
+<div class="badges"><span class="badge">15 questions</span><span class="badge">5 Listening</span><span class="badge">10 Multiple Choice</span><span class="badge">Grade 0.0–5.0</span></div>
+<div class="progress"><div id="progressBar"></div></div>
+</header>
+
+<section class="card" id="startScreen">
+<h2 style="margin-top:0;color:var(--dark)">Instructions</h2>
+<div class="note">
+<strong>Listening (5):</strong> listen and choose the best answer. You may replay the audio.<br><br>
+<strong>Multiple Choice (10):</strong> choose the option that best matches the meaning and grammar.<br><br>
+<strong>Immediate feedback:</strong> your first answer is final. The platform shows <strong>Correct!</strong> or <strong>Incorrect.</strong><br><br>
+<strong>Important:</strong> <em>have to / has to</em> = requirement; <em>don’t / doesn’t have to</em> = no obligation; <em>mustn’t</em> = prohibition; <em>should</em> = advice.
+</div>
+<div class="warn"><strong>Audio protection:</strong> this version uses only one voice at a time. Before every new playback, the previous speech queue is fully cancelled. If your device gets stuck, use <strong>Reset audio</strong> and then Play again.</div>
+<div style="margin-top:15px"><label>Student name<input id="studentName" type="text" autocomplete="off" placeholder="Write your full name"></label></div>
+<div style="margin-top:15px" class="audio-panel">
+<div class="audio-row"><button class="btn secondary" id="testAudioBtn" type="button">🔊 Test audio</button><button class="btn secondary" id="resetAudioBtn" type="button">↻ Reset audio</button></div>
+<div id="audioCheckStatus" class="audio-status">Test the audio before starting, especially on a phone.</div>
+</div>
+<div style="margin-top:16px"><button class="btn" id="startBtn" type="button">Start evaluation</button></div>
+</section>
+
+<main id="quiz"></main>
+
+<section class="card hidden" id="resultScreen">
+<h2 style="margin-top:0;color:var(--dark)">Final Result</h2>
+<div class="grid">
+<div class="stat"><strong id="gradeBig">0.0</strong><span>Final grade / 5.0</span></div>
+<div class="stat"><strong id="scoreBig">0/15</strong><span>Correct</span></div>
+<div class="stat"><strong id="percentBig">0%</strong><span>Percentage</span></div>
+<div class="stat"><strong id="timeBig">--:--</strong><span>Time remaining</span></div>
+</div>
+<div id="resultMsg" class="note"></div>
+</section>
+</div>
+
+<div class="lock hidden" id="lockScreen">
+<div class="lockbox"><h2 style="color:var(--dark)">Evaluation locked</h2><p>Your progress is safe. Teacher authorization is required to continue.</p><input id="unlockPassword" type="password" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" id="unlockBtn" style="margin-top:10px">Unlock</button><div id="unlockError" class="lock-error"></div></div>
+</div>
+
+<script>
+const LISTENING=[{"id": "L1", "audio": "Tomorrow is a holiday, so I do not need to go to work.", "question": "Choose the sentence that matches the situation.", "options": ["I don’t have to go to work tomorrow.", "I have to go to work tomorrow.", "I mustn’t go to work tomorrow.", "I should go to work tomorrow."], "answer": "I don’t have to go to work tomorrow."}, {"id": "L2", "audio": "Employees are required to wear an identification card inside the building.", "question": "Which sentence expresses the requirement?", "options": ["Employees have to wear an ID card.", "Employees don’t have to wear an ID card.", "Employees mustn’t wear an ID card.", "Employees should wear an ID card if they want."], "answer": "Employees have to wear an ID card."}, {"id": "L3", "audio": "During the exam, phones are not allowed.", "question": "Which sentence expresses the rule?", "options": ["Students mustn’t use phones during the exam.", "Students don’t have to use phones during the exam.", "Students should use phones during the exam.", "Students have to use phones during the exam."], "answer": "Students mustn’t use phones during the exam."}, {"id": "L4", "audio": "My brother is very tired because he sleeps only four hours every night.", "question": "Choose the best advice.", "options": ["He should sleep more.", "He has to stay awake all night.", "He mustn’t sleep.", "He doesn’t have to rest."], "answer": "He should sleep more."}, {"id": "L5", "audio": "The hotel provides towels, so guests do not need to bring their own.", "question": "Choose the correct sentence.", "options": ["Guests don’t have to bring towels.", "Guests have to bring towels.", "Guests mustn’t use towels.", "Guests should buy towels."], "answer": "Guests don’t have to bring towels."}, {"id": "L6", "audio": "At this factory, workers are required to wear safety shoes.", "question": "Choose the sentence that matches.", "options": ["Workers have to wear safety shoes.", "Workers don’t have to wear safety shoes.", "Workers mustn’t wear safety shoes.", "Workers should avoid safety shoes."], "answer": "Workers have to wear safety shoes."}, {"id": "L7", "audio": "There is no class on Saturday, so students are not required to come to school.", "question": "Choose the sentence that matches.", "options": ["Students don’t have to come on Saturday.", "Students have to come on Saturday.", "Students mustn’t come on Saturday.", "Students should come on Saturday."], "answer": "Students don’t have to come on Saturday."}, {"id": "L8", "audio": "The sign says: No entry. Staff only.", "question": "What does the sign mean for visitors?", "options": ["Visitors mustn’t enter.", "Visitors don’t have to enter.", "Visitors should enter.", "Visitors have to enter."], "answer": "Visitors mustn’t enter."}, {"id": "L9", "audio": "Maria is a nurse. Her hospital requires all nurses to wear a uniform.", "question": "Choose the correct sentence.", "options": ["Maria has to wear a uniform.", "Maria doesn’t have to wear a uniform.", "Maria mustn’t wear a uniform.", "Maria should wear anything she wants."], "answer": "Maria has to wear a uniform."}, {"id": "L10", "audio": "I want to improve my English pronunciation, but I almost never practise speaking.", "question": "Choose the best advice.", "options": ["You should practise speaking more often.", "You have to stop speaking English.", "You mustn’t practise pronunciation.", "You don’t have to study at all."], "answer": "You should practise speaking more often."}];
+const MCQ=[{"id": "M1", "question": "Students ___ wear the school uniform. It is a school requirement.", "options": ["have to", "don’t have to", "shouldn’t", "mustn’t"], "answer": "have to"}, {"id": "M2", "question": "Tomorrow is Sunday. I ___ go to work.", "options": ["don’t have to", "have to", "mustn’t", "should"], "answer": "don’t have to"}, {"id": "M3", "question": "She ___ wear a helmet at work. It is required.", "options": ["has to", "doesn’t have to", "shouldn’t", "mustn’t"], "answer": "has to"}, {"id": "M4", "question": "He works from home today, so he ___ take the bus.", "options": ["doesn’t have to", "has to", "mustn’t", "should"], "answer": "doesn’t have to"}, {"id": "M5", "question": "Choose the correct sentence.", "options": ["She has to study tonight.", "She have to study tonight.", "She has to studies tonight.", "She has study to tonight."], "answer": "She has to study tonight."}, {"id": "M6", "question": "Choose the correct sentence.", "options": ["They have to arrive early.", "They has to arrive early.", "They have arrive to early.", "They have to arrives early."], "answer": "They have to arrive early."}, {"id": "M7", "question": "Complete the question: ___ you have to wear a uniform?", "options": ["Do", "Does", "Are", "Is"], "answer": "Do"}, {"id": "M8", "question": "Complete the question: ___ she have to work tomorrow?", "options": ["Does", "Do", "Is", "Has"], "answer": "Does"}, {"id": "M9", "question": "What does DON’T HAVE TO mean?", "options": ["It is not necessary.", "It is prohibited.", "It is a strong recommendation.", "It is impossible."], "answer": "It is not necessary."}, {"id": "M10", "question": "What does MUSTN’T mean?", "options": ["It is prohibited.", "It is optional.", "It is not necessary.", "It is recommended."], "answer": "It is prohibited."}, {"id": "M11", "question": "You ___ park here. The sign says NO PARKING.", "options": ["mustn’t", "don’t have to", "should", "have to"], "answer": "mustn’t"}, {"id": "M12", "question": "You ___ bring food. The restaurant provides everything.", "options": ["don’t have to", "have to", "mustn’t", "should"], "answer": "don’t have to"}, {"id": "M13", "question": "Your friend is very tired. You ___ tell him to rest.", "options": ["should", "mustn’t", "don’t have to", "has to"], "answer": "should"}, {"id": "M14", "question": "Employees ___ complete this form before entering. It is required by the company.", "options": ["have to", "don’t have to", "shouldn’t", "mustn’t"], "answer": "have to"}, {"id": "M15", "question": "Anna ___ work on Saturday because the office is closed.", "options": ["doesn’t have to", "has to", "mustn’t", "should"], "answer": "doesn’t have to"}, {"id": "M16", "question": "Visitors ___ take photos in this area. It is forbidden.", "options": ["mustn’t", "don’t have to", "should", "have to"], "answer": "mustn’t"}, {"id": "M17", "question": "Which sentence means “It is optional”?", "options": ["You don’t have to come early.", "You mustn’t come early.", "You should come early.", "You have to come early."], "answer": "You don’t have to come early."}, {"id": "M18", "question": "Which sentence means “It is forbidden”?", "options": ["You mustn’t enter.", "You don’t have to enter.", "You should enter.", "You have to enter."], "answer": "You mustn’t enter."}, {"id": "M19", "question": "Choose the correct sentence.", "options": ["He doesn’t have to drive today.", "He don’t have to drive today.", "He doesn’t has to drive today.", "He doesn’t have drives today."], "answer": "He doesn’t have to drive today."}, {"id": "M20", "question": "Which question is correct?", "options": ["Does she have to study tonight?", "Does she has to study tonight?", "Do she have to study tonight?", "Has she to study tonight?"], "answer": "Does she have to study tonight?"}, {"id": "M21", "question": "This meeting is optional. You ___ attend.", "options": ["don’t have to", "have to", "mustn’t", "should"], "answer": "don’t have to"}, {"id": "M22", "question": "The road sign says drivers cannot turn left. Drivers ___ turn left.", "options": ["mustn’t", "don’t have to", "should", "have to"], "answer": "mustn’t"}, {"id": "M23", "question": "You want better English. You ___ practise a little every day.", "options": ["should", "mustn’t", "don’t have to", "has to"], "answer": "should"}, {"id": "M24", "question": "We already paid online, so we ___ pay again at the door.", "options": ["don’t have to", "have to", "mustn’t", "should"], "answer": "don’t have to"}];
+const TOTAL=15, LISTEN_COUNT=5, MCQ_COUNT=10, TIME_LIMIT=45*60;
+const STORAGE_KEY="haveTo15_audioRescue_v2";
+const TEACHER_HASH="8e9b669109df89620b94f2387dc53206a82ddc71d658f8f7a2b3a9b417370d3e";
+let questions=[], current=0, answers={}, graded={}, remaining=TIME_LIMIT, timerHandle=null;
+let started=false, finished=false, locked=false, audioRate=.80;
+let voices=[], audioSession=0, activeUtterance=null, audioBusy=false, audioCtx=null;
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function prepareQuestions(){
+ const l=shuffle(LISTENING).slice(0,LISTEN_COUNT).map(q=>({...q,type:"listening",options:shuffle(q.options)}));
+ const m=shuffle(MCQ).slice(0,MCQ_COUNT).map(q=>({...q,type:"mcq",options:shuffle(q.options)}));
+ questions=[...l,...m];
+}
+function fmt(s){s=Math.max(0,s|0);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+
+function saveState(){
+ if(!started||finished)return;
+ try{localStorage.setItem(STORAGE_KEY,JSON.stringify({questions,current,answers,graded,remaining,name:document.getElementById("studentName").value,started:true,audioRate}))}catch(e){}
+}
+function restoreState(){
+ try{
+  const raw=localStorage.getItem(STORAGE_KEY); if(!raw)return false;
+  const s=JSON.parse(raw); if(!s.started||!Array.isArray(s.questions)||s.questions.length!==TOTAL)return false;
+  questions=s.questions;current=Math.max(0,Math.min(TOTAL-1,s.current||0));answers=s.answers||{};graded=s.graded||{};remaining=Number.isFinite(Number(s.remaining))?Number(s.remaining):TIME_LIMIT;audioRate=Number(s.audioRate)||.80;
+  document.getElementById("studentName").value=s.name||"";return true;
+ }catch(e){return false}
+}
+async function persistentStorage(){try{if(navigator.storage?.persist)await navigator.storage.persist()}catch(e){}}
+
+function loadVoices(){if(!("speechSynthesis" in window))return[];voices=speechSynthesis.getVoices().filter(v=>/^en([-_]|$)/i.test(v.lang||""));return voices}
+if("speechSynthesis" in window){loadVoices();try{speechSynthesis.addEventListener("voiceschanged",loadVoices)}catch(e){speechSynthesis.onvoiceschanged=loadVoices}}
+function voiceScore(v){
+ const n=(v.name||"").toLowerCase(),l=(v.lang||"").toLowerCase();let s=0;
+ if(/natural|neural|premium|enhanced/.test(n))s+=130;
+ if(/jenny|aria|ava|samantha|sonia|serena|guy|ryan|daniel|karen/.test(n))s+=90;
+ if(/google us english|google uk english/.test(n))s+=75;
+ if(/microsoft|apple|samsung|google/.test(n))s+=35;
+ if(l.startsWith("en-us"))s+=20; else if(l.startsWith("en-gb"))s+=17; else if(l.startsWith("en"))s+=10;
+ if(v.default)s+=8;
+ if(/espeak|festival|mbrola|compact|robot/.test(n))s-=300;
+ return s;
+}
+async function waitVoices(ms=4500){let a=loadVoices();if(a.length)return a;const t=Date.now();while(Date.now()-t<ms){await new Promise(r=>setTimeout(r,120));a=loadVoices();if(a.length)return a}return a}
+function bestVoices(){return [...loadVoices()].sort((a,b)=>voiceScore(b)-voiceScore(a))}
+
+async function unlockAudioHardware(){
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  if(!audioCtx)audioCtx=new AC();
+  if(audioCtx.state==="suspended")await audioCtx.resume();
+  const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+  gain.gain.value=0.00001;osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.02);
+ }catch(e){}
+}
+async function hardCancelSpeech(){
+ audioSession++;
+ activeUtterance=null;
+ audioBusy=false;
+ document.querySelectorAll("[data-play]").forEach(b=>b.disabled=false);
+ if(!("speechSynthesis" in window))return;
+ for(let i=0;i<3;i++){
+  try{speechSynthesis.pause()}catch(e){}
+  try{speechSynthesis.cancel()}catch(e){}
+  try{speechSynthesis.resume()}catch(e){}
+  await new Promise(r=>setTimeout(r,100+i*80));
+ }
+ const t=Date.now();
+ while(Date.now()-t<900 && (speechSynthesis.speaking||speechSynthesis.pending)){
+  try{speechSynthesis.cancel()}catch(e){}
+  await new Promise(r=>setTimeout(r,80));
+ }
+}
+async function resetAudio(statusEl){
+ await hardCancelSpeech(); await unlockAudioHardware(); await waitVoices(1500);
+ if(statusEl){statusEl.textContent="Audio engine reset. Tap Play again.";statusEl.className="audio-status ok"}
+}
+async function speakOnce(text,rate,statusEl,idx=null,isTest=false){
+ if(!("speechSynthesis" in window)||typeof SpeechSynthesisUtterance==="undefined"){
+  if(statusEl){statusEl.textContent="Audio is not supported on this browser. Please use Chrome, Edge or Safari.";statusEl.className="audio-status err"} return false;
+ }
+ await unlockAudioHardware();
+ await hardCancelSpeech();
+ const session=audioSession;
+ await waitVoices();
+ if(session!==audioSession)return false;
+ const candidates=bestVoices();
+ const shortlist=candidates.length?candidates.slice(0,4):[null];
+
+ for(let vi=0;vi<shortlist.length;vi++){
+  if(session!==audioSession)return false;
+  const voice=shortlist[vi];
+  const result=await new Promise(resolve=>{
+    let startedSpeech=false,settled=false;
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=(voice&&voice.lang)||"en-US"; if(voice)u.voice=voice;
+    u.rate=Math.max(.62,Math.min(1.15,Number(rate)||.80));u.pitch=1;u.volume=1;
+    activeUtterance=u; audioBusy=true;
+    document.querySelectorAll("[data-play]").forEach(b=>b.disabled=true);
+    if(idx!==null){const active=document.querySelector(`[data-play="${idx}"]`);if(active)active.disabled=true}
+    const startWatch=setTimeout(()=>{
+      if(!startedSpeech&&!settled){settled=true;try{speechSynthesis.cancel()}catch(e){}resolve({ok:false,started:false})}
+    },2500);
+    const endWatch=setTimeout(()=>{
+      if(startedSpeech&&!settled){settled=true;resolve({ok:true,started:true})}
+    },Math.max(9000,text.length*145));
+    u.onstart=()=>{
+      startedSpeech=true;clearTimeout(startWatch);
+      if(statusEl&&session===audioSession){statusEl.textContent="Playing at "+Number(rate).toFixed(2)+"×"+(voice?" • "+voice.name:"");statusEl.className="audio-status ok"}
+    };
+    u.onend=()=>{if(settled)return;settled=true;clearTimeout(startWatch);clearTimeout(endWatch);resolve({ok:true,started:true})};
+    u.onerror=()=>{if(settled)return;settled=true;clearTimeout(startWatch);clearTimeout(endWatch);resolve({ok:false,started:startedSpeech})};
+    try{speechSynthesis.speak(u)}catch(e){clearTimeout(startWatch);clearTimeout(endWatch);settled=true;resolve({ok:false,started:false})}
+  });
+  // Critical anti-overlap rule:
+  // If a voice actually started, NEVER launch another fallback voice for this request.
+  if(result.started){
+    audioBusy=false;document.querySelectorAll("[data-play]").forEach(b=>b.disabled=false);
+    if(statusEl&&session===audioSession){statusEl.textContent=(isTest?"✓ Audio works. ":"Ready to replay. ")+"Speed "+Number(rate).toFixed(2)+"×";statusEl.className="audio-status ok"}
+    return true;
+  }
+  await hardCancelSpeech();
+  if(vi<shortlist.length-1)await new Promise(r=>setTimeout(r,220));
+ }
+ audioBusy=false;document.querySelectorAll("[data-play]").forEach(b=>b.disabled=false);
+ if(statusEl){statusEl.textContent="No audio started. Tap Reset audio, then Play. If it still fails, change browser/device.";statusEl.className="audio-status err"}
+ return false;
+}
+async function playAudio(idx){
+ if(locked)return;
+ const q=questions[idx],status=document.getElementById("audioStatus"+idx),sel=document.getElementById("speed"+idx);if(!q)return;
+ audioRate=parseFloat(sel?.value||audioRate||.80);saveState();
+ await speakOnce(q.audio,audioRate,status,idx,false);
+}
+async function testAudio(){
+ const st=document.getElementById("audioCheckStatus");st.textContent="Testing audio…";st.className="audio-status";
+ await speakOnce("Audio test. You should hear one clear English voice, not two voices at the same time.",.80,st,null,true);
+}
+
+function updateProgress(){document.getElementById("progressBar").style.width=(Object.keys(answers).length/TOTAL*100)+"%"}
+function renderQuiz(){
+ const quiz=document.getElementById("quiz");quiz.innerHTML="";
+ questions.forEach((q,idx)=>{
+  const isG=!!graded[q.id],chosen=answers[q.id],ok=isG&&chosen===q.answer;
+  const card=document.createElement("section");card.className="card question-card"+(idx===current?" active":"");card.id="q"+idx;
+  card.innerHTML=`<div class="qmeta"><span class="qnum">Question ${idx+1} of ${TOTAL}</span><span class="tag">${q.type==="listening"?"LISTENING":"MULTIPLE CHOICE"}</span></div>
+  ${q.type==="listening"?`<div class="audio-panel"><div class="audio-row"><button class="btn" data-play="${idx}" type="button">▶ Play</button><button class="btn secondary" data-reset="${idx}" type="button">↻ Reset audio</button><label class="small">Speed <select class="speed" id="speed${idx}" data-speed="${idx}"><option value=".65" ${Math.abs(audioRate-.65)<.01?"selected":""}>Very slow 0.65×</option><option value=".80" ${Math.abs(audioRate-.80)<.01?"selected":""}>Slow 0.80×</option><option value="1" ${Math.abs(audioRate-1)<.01?"selected":""}>Normal 1.00×</option></select></label></div><div id="audioStatus${idx}" class="audio-status">Only one voice can play at a time.</div></div>`:""}
+  <div class="qtext">${q.question}</div><div class="options">${q.options.map(op=>`<label class="option ${chosen===op?"selected":""} ${isG?"locked":""} ${isG&&chosen===op?(ok?"answer-correct":"answer-wrong"):""}"><input type="radio" name="${q.id}" value="${esc(op)}" ${chosen===op?"checked":""} ${isG?"disabled":""}><span>${op}</span></label>`).join("")}</div>
+  ${isG?`<div class="feedback ${ok?"ok":"bad"}">${ok?"✓ Correct!":"✗ Incorrect."}</div>`:""}
+  <div class="nav"><button class="btn secondary" data-prev ${idx===0?"disabled":""}>← Previous</button>${idx<TOTAL-1?'<button class="btn" data-next>Next →</button>':'<button class="btn red" data-finish>Finish evaluation</button>'}</div>`;
+  quiz.appendChild(card);
+ });
+ quiz.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=e=>{
+  const id=e.target.name;if(graded[id])return;const q=questions.find(x=>x.id===id);answers[id]=e.target.value;graded[id]=true;saveState();renderQuiz();updateProgress();
+ });
+ quiz.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>go(current+1));
+ quiz.querySelectorAll("[data-prev]").forEach(b=>b.onclick=()=>go(current-1));
+ quiz.querySelectorAll("[data-finish]").forEach(b=>b.onclick=()=>finishQuiz(false));
+ quiz.querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>playAudio(Number(b.dataset.play)));
+ quiz.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>resetAudio(document.getElementById("audioStatus"+b.dataset.reset)));
+ quiz.querySelectorAll("[data-speed]").forEach(s=>s.onchange=e=>{audioRate=parseFloat(e.target.value)||.80;saveState();document.querySelectorAll("[data-speed]").forEach(x=>x.value=String(audioRate));hardCancelSpeech()});
+ updateProgress();
+}
+async function go(n){if(locked||n<0||n>=TOTAL)return;await hardCancelSpeech();current=n;saveState();renderQuiz();window.scrollTo({top:0,behavior:"smooth"})}
+
+function startTimer(){clearInterval(timerHandle);document.getElementById("timer").textContent=fmt(remaining);timerHandle=setInterval(()=>{if(remaining<=0){finishQuiz(true);return}remaining--;document.getElementById("timer").textContent=fmt(remaining);if(remaining%3===0)saveState()},1000)}
+async function startQuiz(){
+ const name=document.getElementById("studentName").value.trim();if(!name){alert("Please write your full name.");return}
+ if(!questions.length)prepareQuestions();started=true;finished=false;await persistentStorage();document.getElementById("startScreen").classList.add("hidden");renderQuiz();startTimer();saveState();
+}
+async function finishQuiz(force=false){
+ if(!force){const left=questions.filter(q=>!answers[q.id]).length;if(left&&!confirm(`You still have ${left} unanswered question(s). Finish anyway?`))return;if(!confirm("Submit the evaluation now?"))return}
+ await hardCancelSpeech();finished=true;started=false;clearInterval(timerHandle);try{localStorage.removeItem(STORAGE_KEY)}catch(e){}
+ let score=0;questions.forEach(q=>{if(answers[q.id]===q.answer)score++});const grade=(score/TOTAL*5).toFixed(1),pct=Math.round(score/TOTAL*100);
+ document.getElementById("quiz").innerHTML="";document.getElementById("resultScreen").classList.remove("hidden");document.getElementById("gradeBig").textContent=grade;document.getElementById("scoreBig").textContent=score+"/"+TOTAL;document.getElementById("percentBig").textContent=pct+"%";document.getElementById("timeBig").textContent=fmt(remaining);document.getElementById("resultMsg").textContent="Listening and multiple-choice assessment completed.";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function sha256(s){const b=new TextEncoder().encode(s),d=await crypto.subtle.digest("SHA-256",b);return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function showLock(){locked=true;hardCancelSpeech();document.getElementById("lockScreen").classList.remove("hidden")}
+async function unlock(){const p=document.getElementById("unlockPassword").value;if(await sha256(p)===TEACHER_HASH){locked=false;document.getElementById("lockScreen").classList.add("hidden");document.getElementById("unlockPassword").value="";document.getElementById("unlockError").textContent=""}else document.getElementById("unlockError").textContent="Incorrect password."}
+document.getElementById("unlockBtn").onclick=unlock;
+document.getElementById("startBtn").onclick=startQuiz;
+document.getElementById("testAudioBtn").onclick=testAudio;
+document.getElementById("resetAudioBtn").onclick=()=>resetAudio(document.getElementById("audioCheckStatus"));
+
+["copy","cut","paste","contextmenu","dragstart","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(started)e.preventDefault()}));
+document.addEventListener("keydown",e=>{if(!started)return;const k=e.key.toLowerCase();if((e.ctrlKey||e.metaKey)&&["c","x","v","p","s","u"].includes(k))e.preventDefault();if(e.key==="PrintScreen")showLock()});
+document.addEventListener("visibilitychange",()=>{if(started&&document.hidden){saveState();hardCancelSpeech();}});
+window.addEventListener("pagehide",()=>{saveState();hardCancelSpeech()});
+window.addEventListener("beforeunload",()=>saveState());
+
+const restored=restoreState();
+if(restored){
+ started=true;document.getElementById("studentName").readOnly=true;
+ const b=document.createElement("button");b.className="btn secondary";b.textContent="Continue saved evaluation";b.style.marginLeft="8px";b.onclick=()=>{document.getElementById("startScreen").classList.add("hidden");renderQuiz();startTimer()};document.getElementById("startBtn").after(b);
+}else prepareQuestions();
+</script>
+</body>
+</html>
